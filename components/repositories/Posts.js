@@ -1,0 +1,74 @@
+const { Post } = require("../../models");
+
+exports.createPost = async (payload) => {
+  const data = await Post.create(payload);
+  return await Post.findOne({
+    where: { id: data.id },
+    attributes: [
+      "id",
+      "title",
+      "slug",
+      "content",
+      "user_id",
+      "thumbnail",
+      "published_at",
+      "status",
+    ],
+  });
+};
+
+exports.updatePostById = async (id, payload) => {
+  await Post.update(payload, { where: { id } });
+  const data = await Post.findOne({
+    where: { id },
+    attributes: [
+      "id",
+      "title",
+      "slug",
+      "content",
+      "user_id",
+      "thumbnail",
+      "published_at",
+      "status",
+    ],
+  });
+  return data;
+};
+
+exports.getPostById = async (id) => {
+  const data = await Post.findOne({
+    where: { id },
+    attributes: [
+      "id",
+      "title",
+      "slug",
+      "content",
+      "user_id",
+      "thumbnail",
+      "published_at",
+      "status",
+    ],
+  });
+  return data;
+};
+
+exports.getPosts = async () => {
+  const data = await Post.findAll({
+    attributes: [
+      "id",
+      "title",
+      "slug",
+      "content",
+      "user_id",
+      "thumbnail",
+      "published_at",
+      "status",
+    ],
+  });
+  return data;
+};
+
+exports.deletePostById = async (id) => {
+  const data = await Post.destroy({ where: { id } });
+  return data;
+};
