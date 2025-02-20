@@ -48,6 +48,22 @@ exports.getPostById = async (id) => {
       "published_at",
       "status",
     ],
+    include: [
+      {
+        model: Post_Tag,
+        attributes: ["tag_id"],
+        include: [
+          {
+            model: Tag,
+            attributes: ["name"],
+          },
+        ],
+      },
+      {
+        model: User,
+        attributes: ["name"],
+      },
+    ],
   });
   return data;
 };
@@ -64,6 +80,18 @@ exports.getPostByUserId = async (user_id) => {
       "thumbnail",
       "published_at",
       "status",
+    ],
+    include: [
+      {
+        model: Post_Tag,
+        attributes: ["tag_id"],
+        include: [
+          {
+            model: Tag,
+            attributes: ["name"],
+          },
+        ],
+      },
     ],
   });
   return data;
