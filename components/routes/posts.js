@@ -7,6 +7,7 @@ const {
   createPost,
   updatePostById,
   getPostById,
+  getPostByUserId,
   getPosts,
   deletePostById,
 } = require("../controllers/posts");
@@ -21,5 +22,7 @@ router
   .put(authMiddleware, updatePostById)
   .get(authMiddleware, getPostById)
   .delete(authMiddleware, deletePostById);
+
+router.use("/getPostsByUserId", authMiddleware, getPostByUserId);
 
 module.exports = router;

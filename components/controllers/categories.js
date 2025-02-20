@@ -6,16 +6,29 @@ const {
   deleteCategoryById,
 } = require("../services/categories");
 
+const Joi = require("joi");
+
 exports.createCategory = async (req, res, next) => {
   try {
-    const { name } = req?.body;
+    const schema = Joi.object({
+      name: Joi.string().min(3).max(100).required().empty().messages({
+        "string.min": "Name minimal 2 karakter!",
+        "string.max": "Name maksimal 100 karakter!",
+        "string.empty": "Name harus diisi!",
+        "any.required": "Name diperlukan!",
+      }),
+    });
 
-    if (name == "" || !name) {
+    const { error } = schema.validate(req.body);
+
+    if (error) {
       return next({
-        message: "Name harus diisi!",
+        message: error.details[0].message,
         statusCode: 400,
       });
     }
+
+    const { name } = req?.body;
 
     const data = await createCategory({
       name,
@@ -47,6 +60,13 @@ exports.deleteCategory = async (req, res, next) => {
   try {
     const { id } = req?.params;
 
+    if (!id || isNaN(id)) {
+      return next({
+        message: "ID kategori tidak valid!",
+        statusCode: 400,
+      });
+    }
+
     const data = await deleteCategoryById(id);
 
     res.status(200).json({
@@ -60,12 +80,30 @@ exports.deleteCategory = async (req, res, next) => {
 
 exports.updateCategory = async (req, res, next) => {
   try {
+    const schema = Joi.object({
+      name: Joi.string().min(3).max(100).required().empty().messages({
+        "string.min": "Name minimal 2 karakter!",
+        "string.max": "Name maksimal 100 karakter!",
+        "string.empty": "Name harus diisi!",
+        "any.required": "Name diperlukan!",
+      }),
+    });
+
+    const { error } = schema.validate(req.body);
+
+    if (error) {
+      return next({
+        message: error.details[0].message,
+        statusCode: 400,
+      });
+    }
+
     const { name } = req?.body;
     const { id } = req?.params;
 
-    if (name == "" || !name) {
+    if (!id || isNaN(id)) {
       return next({
-        message: "Name harus diisi!",
+        message: "ID kategori tidak valid!",
         statusCode: 400,
       });
     }

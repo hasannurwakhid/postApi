@@ -10,6 +10,20 @@ exports.createPostTag = async (req, res, next) => {
   try {
     const { post_id, tag_id } = req?.body;
 
+    if (!post_id || isNaN(post_id)) {
+      return next({
+        message: "Post ID tidak valid!",
+        statusCode: 400,
+      });
+    }
+
+    if (!tag_id || isNaN(tag_id)) {
+      return next({
+        message: "Tag ID tidak valid!",
+        statusCode: 400,
+      });
+    }
+
     const data = await createPostTag({ post_id, tag_id });
 
     res.status(200).json({
@@ -55,6 +69,20 @@ exports.updatePostTag = async (req, res, next) => {
 
     const { post_id, tag_id } = req?.body;
 
+    if (!post_id || isNaN(post_id)) {
+      return next({
+        message: "Post ID tidak valid!",
+        statusCode: 400,
+      });
+    }
+
+    if (!tag_id || isNaN(tag_id)) {
+      return next({
+        message: "Tag ID tidak valid!",
+        statusCode: 400,
+      });
+    }
+
     const data = await updatePostTag(id, { post_id, tag_id });
 
     res.status(200).json({
@@ -69,6 +97,13 @@ exports.updatePostTag = async (req, res, next) => {
 exports.deletePostTag = async (req, res, next) => {
   try {
     const id = req?.params?.id;
+
+    if (!id || isNaN(id)) {
+      return next({
+        message: "ID Post Tag tidak valid!",
+        statusCode: 400,
+      });
+    }
 
     const data = await deletePostTag(id);
 

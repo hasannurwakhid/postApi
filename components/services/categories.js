@@ -49,5 +49,11 @@ exports.updateCategory = async (id, payload) => {
 };
 
 exports.deleteCategoryById = async (id) => {
+  const existingCategory = await getCategoryById(id);
+  if (!existingCategory) {
+    const error = new Error("Category tidak ditemukan");
+    error.statusCode = 404;
+    throw error;
+  }
   return await deleteCategory(id);
 };

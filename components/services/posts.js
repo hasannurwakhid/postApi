@@ -7,6 +7,7 @@ const {
   createPost,
   getPosts,
   getPostById,
+  getPostByUserId,
   updatePostById,
   deletePostById,
 } = require("../repositories/Posts");
@@ -91,6 +92,11 @@ exports.getPostById = async (id, postActivity) => {
     throw error;
   }
   await createPostActivity(id, postActivity.ip, postActivity.userAgent);
+  return data;
+};
+
+exports.getPostByUserId = async (user_id) => {
+  const data = await getPostByUserId(user_id);
   return data;
 };
 

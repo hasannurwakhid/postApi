@@ -52,6 +52,23 @@ exports.getPostById = async (id) => {
   return data;
 };
 
+exports.getPostByUserId = async (user_id) => {
+  const data = await Post.findAll({
+    where: { user_id },
+    attributes: [
+      "id",
+      "title",
+      "slug",
+      "content",
+      "user_id",
+      "thumbnail",
+      "published_at",
+      "status",
+    ],
+  });
+  return data;
+};
+
 exports.getPosts = async () => {
   const data = await Post.findAll({
     attributes: [
